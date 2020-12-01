@@ -119,6 +119,7 @@ module Ladb::OpenCutList
       @dimensions_to_normals = part_def.size.dimensions_to_normals
       @l_ratio = part_def.size.length / [part_def.size.length, part_def.size.width].max
       @w_ratio = part_def.size.width / [part_def.size.length, part_def.size.width].max
+      @surfaces_components = part_def.surfaces_components
     end
 
     # -----

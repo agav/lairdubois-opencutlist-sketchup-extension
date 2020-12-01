@@ -18,6 +18,9 @@
         {% if group.material_type == 2 %} {# 2 = TYPE_SHEET_GOOD #}
             <li role="presentation"{% if tab == 'edges' %} class="active"{% endif %}><a href="#tab_edit_part_edges" role="tab" data-toggle="tab"><i class="ladb-opencutlist-icon-edge-{{ part.edge_pattern }}"></i>&nbsp;{{ 'tab.cutlist.edit_part.edges'|i18next }}</a></li>
         {% endif %}
+        {% if group.material_type == 2 %} {# 2 = TYPE_SHEET_GOOD #}
+            <li role="presentation"{% if tab == 'surfaces_components' %} class="active"{% endif %}><a href="#tab_edit_part_surfaces_components" role="tab" data-toggle="tab"><i class="ladb-opencutlist-icon-accessory"></i>&nbsp;{{ 'tab.cutlist.edit_part.surface_components'|i18next }}</a></li>
+        {% endif %}
         {% if not multiple %}
             <li role="presentation"{% if tab == 'infos' %} class="active"{% endif %}><a href="#tab_edit_part_infos" role="tab" data-toggle="tab"><i class="ladb-opencutlist-icon-info"></i></a></li>
         {% endif %}
@@ -316,6 +319,25 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        {% endif %}
+        {% if group.material_type == 2 %}    {# 2 = TYPE_SHEET_GOOD #}
+            <div role="tabpanel" class="tab-pane{% if tab == 'surfaces_components' %} active{% endif %}"
+                 id="tab_edit_part_surfaces_components">
+                <table class="table table-bordered">
+                    <td>Name</td>
+                    <td>Side</td>
+                    <td>X</td>
+                    <td>Y</td>
+                    {% for item in part.surfaces_components %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.side }}</td>
+                            <td>{{ item.x }}</td>
+                            <td>{{ item.y }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
         {% endif %}
         {% if not multiple %}

@@ -250,6 +250,7 @@ tab:
       over_width: Sur la largeur
       edge_disabled_help: Ce chant n'est pas configurable parce qu'aucune face pouvant porter une matière n'a été détectée sur ce bord de la pièce dans le modèle.
       multiple_values: Valeurs multiples
+      surface_components: Surface Components
     option:
       auto_orient: Orientation automatique des pièces
       auto_orient_help: |

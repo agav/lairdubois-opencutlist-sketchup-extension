@@ -250,6 +250,7 @@ tab:
       over_width: Em toda a largura
       edge_disabled_help: Esta faixa de borda não é configurável porque nenhuma face foi detectada que pudesse conter material de faixa de borda no modelo.
       multiple_values: Valores múltiplos
+      surface_components: Surface Components
     option:
       auto_orient: Orientação automática de partes
       auto_orient_help: |

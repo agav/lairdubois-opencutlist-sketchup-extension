@@ -12,6 +12,7 @@ module Ladb::OpenCutList
   require_relative '../../model/cutlist/group'
   require_relative '../../model/cutlist/partdef'
   require_relative '../../model/cutlist/part'
+  require_relative '../../model/cutlist/surface_component'
   require_relative '../../utils/transformation_utils'
   require_relative '../../tool/highlight_part_tool'
 
@@ -385,6 +386,8 @@ module Ladb::OpenCutList
               part_def.edge_length_decrement = length_decrement.to_l
               part_def.edge_width_decrement = width_decrement.to_l
               part_def.edge_decremented = edge_decremented
+
+              part_def.surfaces_components = _compute_surfaces_components(definition, instance_info)
 
               group_def.show_cutting_dimensions ||= length_decrement > 0 || width_decrement > 0
               group_def.edge_decremented ||= length_decrement > 0 || width_decrement > 0
@@ -1070,6 +1073,55 @@ module Ladb::OpenCutList
       edge_part_def
     end
 
+    def _compute_surfaces_components(definition, instance_info)
+
+      surfaces_components = []
+
+      x_normal = instance_info.size.oriented_normal(X_AXIS)
+      y_normal = instance_info.size.oriented_normal(Y_AXIS)
+      z_normal = instance_info.size.oriented_normal(Z_AXIS)
+      dimensions_to_normals = instance_info.size.dimensions_to_normals
+
+      zero_point = definition.bounds.min
+
+      definition.entities.each { |glued_component|
+        if glued_component.is_a? Sketchup::ComponentInstance and glued_component.definition.behavior.cuts_opening?
+
+          vector_raw = zero_point - glued_component.transformation.origin
+          vector = vector_raw.transform(Geom::Transformation.scaling(instance_info.scale.x, instance_info.scale.y, instance_info.scale.z))
+
+          component_normal = glued_component.transformation.zaxis.normalize
+
+          if component_normal.parallel?(x_normal)
+            x = vector.send(dimensions_to_normals[:width]).abs.to_l.to_s
+            y = vector.send(dimensions_to_normals[:thickness]).abs.to_l.to_s
+            if component_normal == x_normal
+              surfaces_components << SurfaceComponent.new(glued_component.definition.name, :right, x, y)
+            else
+              surfaces_components << SurfaceComponent.new(glued_component.definition.name, :left, x, y)
+            end
+          elsif component_normal.parallel?(y_normal)
+            x = vector.send(dimensions_to_normals[:length]).abs.to_l.to_s
+            y = vector.send(dimensions_to_normals[:thickness]).abs.to_l.to_s
+            if component_normal == y_normal
+              surfaces_components << SurfaceComponent.new(glued_component.definition.name, :down, x, y)
+            else
+              surfaces_components << SurfaceComponent.new(glued_component.definition.name, :up, x, y)
+            end
+          elsif component_normal.parallel?(z_normal)
+            x = vector.send(dimensions_to_normals[:length]).abs.to_l.to_s
+            y = vector.send(dimensions_to_normals[:width]).abs.to_l.to_s
+            if component_normal == z_normal
+              surfaces_components << SurfaceComponent.new(glued_component.definition.name, :back, x, y)
+            else
+              surfaces_components << SurfaceComponent.new(glued_component.definition.name, :front, x, y)
+            end
+          end
+        end
+      }
+
+      surfaces_components
+    end
   end
 
 end
