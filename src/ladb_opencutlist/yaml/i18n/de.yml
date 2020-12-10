@@ -333,11 +333,17 @@ tab:
       thickness_short: D
       edges: Kantenbänder
     export:
-      title: CSV-formatierter Export
-      info: |
+      title: In Datei exportieren
+      title_csv: CSV-formatierter Export
+      title_json: JSON-formatierter Export
+      info_csv: |
         Mithilfe dieser Funktion kann die *Holzliste* in eine Datei im [CSV](https://de.wikipedia.org/wiki/CSV_(Dateiformat)) Format exportiert werden.
 
         <i class="ladb-opencutlist-icon-warning"></i> *Die in maskierten Gruppen enthaltenen Teile werden nicht exportiert*.
+      info_json: |
+        Mithilfe dieser Funktion kann die *Holzliste* in eine Datei im [JSON](https://ww.json.org) Format exportiert werden.
+
+                <i class="ladb-opencutlist-icon-warning"></i> *Die in maskierten Gruppen enthaltenen Teile werden nicht exportiert*.
       options: Dateioptionen
       option_source: Quelle
       option_source_summary: $t(tab.cutlist.list.summary)

@@ -333,9 +333,15 @@ tab:
       thickness_short: T
       edges: Схема кромок
     export:
-      title: Экспортировать в формате CSV
-      info: |
+      title: Экспортировать в файл
+      title_csv: Экспортировать в формате CSV
+      title_json: Экспортировать в формате JSON
+      info_csv: |
         С этой функцией вы можете экспортировать *список деталей* в [CSV](https://ru.wikipedia.org/wiki/CSV) файл.
+
+        <i class="ladb-opencutlist-icon-warning"></i> *Детали внутри скрытых групп вашего списка деталей не будут экспортированы*.
+      info_json: |
+        С этой функцией вы можете экспортировать *список деталей* в [JSON](https://www.json.org) файл.
 
         <i class="ladb-opencutlist-icon-warning"></i> *Детали внутри скрытых групп вашего списка деталей не будут экспортированы*.
       options: Параметры экспорта

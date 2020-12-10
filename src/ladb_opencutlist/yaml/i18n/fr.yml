@@ -333,9 +333,15 @@ tab:
       thickness_short: Ép.
       edges: Chants
     export:
-      title: Exporter au format CSV
-      info: |
+      title: Exporter vers un fichier
+      title_csv: Exporter au format CSV
+      title_json: Exporter au format JSON
+      info_csv: |
         Cette fonctionnalité vous permet d'exporter votre *fiche de débit* sous forme d'une *liste de pièces* dans un fichier au format [CSV](https://fr.wikipedia.org/wiki/Comma-separated_values).
+
+        <i class="ladb-opencutlist-icon-warning"></i> *Les pièces contenues dans les groupes masqués de votre fiche de débit ne seront pas exportées*.
+      info_json: |
+        Cette fonctionnalité vous permet d'exporter votre *fiche de débit* sous forme d'une *liste de pièces* dans un fichier au format [JSON](https://www.json.org).
 
         <i class="ladb-opencutlist-icon-warning"></i> *Les pièces contenues dans les groupes masqués de votre fiche de débit ne seront pas exportées*.
       options: Options d'export
