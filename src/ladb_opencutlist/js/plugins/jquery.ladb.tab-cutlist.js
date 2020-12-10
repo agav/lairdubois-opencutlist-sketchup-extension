@@ -73,6 +73,7 @@
         this.selectionGroupId = null;
         this.selectionPartIds = [];
         this.lastEditPartTab = null;
+        this.lastEditExportTab = null;
         this.lastCuttingdiagram1dOptionsTab = null;
         this.lastCuttingdiagram2dOptionsTab = null;
 
@@ -543,7 +544,7 @@
 
     };
 
-    LadbTabCutlist.prototype.exportCutlist = function () {
+    LadbTabCutlist.prototype.exportCutlist = function (exportTab) {
         var that = this;
 
         // Retrieve export option options
@@ -565,15 +566,21 @@
 
                         var appDefaults = response.defaults;
 
-                        var exportOptions = {
+                        var csvExportOptions = {
                             source: that.dialog.getSetting(SETTING_KEY_EXPORT_OPTION_SOURCE, appDefaults.source),
                             col_sep: that.dialog.getSetting(SETTING_KEY_EXPORT_OPTION_COL_SEP, appDefaults.col_sep),
                             encoding: that.dialog.getSetting(SETTING_KEY_EXPORT_OPTION_ENCODING, appDefaults.encoding)
                         };
 
-                        var $modal = that.appendModalInside('ladb_cutlist_modal_export', 'tabs/cutlist/_modal-export.twig');
+                        var currentTab = exportTab || that.lastEditExportTab || 'csv';
+                        var $modal = that.appendModalInside('ladb_cutlist_modal_export', 'tabs/cutlist/_modal-export.twig',
+                            {
+                                exportTab: currentTab
+                            }
+                        );
 
                         // Fetch UI elements
+                        var $tabs = $('a[data-toggle="tab"]', $modal);
                         var $selectSource = $('#ladb_cutlist_export_select_source', $modal);
                         var $selectColSep = $('#ladb_cutlist_export_select_col_sep', $modal);
                         var $selectEncoding = $('#ladb_cutlist_export_select_encoding', $modal);
@@ -581,12 +588,18 @@
                         var $btnExport = $('#ladb_cutlist_export_btn_export', $modal);
 
                         // Bind select
-                        $selectSource.val(exportOptions.source);
+                        $selectSource.val(csvExportOptions.source);
                         $selectSource.selectpicker(SELECT_PICKER_OPTIONS);
-                        $selectColSep.val(exportOptions.col_sep);
+                        $selectColSep.val(csvExportOptions.col_sep);
                         $selectColSep.selectpicker(SELECT_PICKER_OPTIONS);
-                        $selectEncoding.val(exportOptions.encoding);
+                        $selectEncoding.val(csvExportOptions.encoding);
                         $selectEncoding.selectpicker(SELECT_PICKER_OPTIONS);
+
+                        // Bind tabs
+                        $tabs.on('shown.bs.tab', function (e) {
+                            currentTab = $(e.target).attr('href').substring('#tab_export_'.length)
+                            that.lastEditExportTab = currentTab;
+                        })
 
                         // Bind buttons
                         $btnDefaultsReset.on('click', function () {
@@ -599,16 +612,21 @@
 
                             // Fetch options
 
-                            exportOptions.source = $selectSource.val();
-                            exportOptions.col_sep = $selectColSep.val();
-                            exportOptions.encoding = $selectEncoding.val();
+                            csvExportOptions.source = $selectSource.val();
+                            csvExportOptions.col_sep = $selectColSep.val();
+                            csvExportOptions.encoding = $selectEncoding.val();
 
                             // Store options
                             that.dialog.setSettings([
-                                { key:SETTING_KEY_EXPORT_OPTION_SOURCE, value:exportOptions.source },
-                                { key:SETTING_KEY_EXPORT_OPTION_COL_SEP, value:exportOptions.col_sep },
-                                { key:SETTING_KEY_EXPORT_OPTION_ENCODING, value:exportOptions.encoding }
+                                { key:SETTING_KEY_EXPORT_OPTION_SOURCE, value:csvExportOptions.source },
+                                { key:SETTING_KEY_EXPORT_OPTION_COL_SEP, value:csvExportOptions.col_sep },
+                                { key:SETTING_KEY_EXPORT_OPTION_ENCODING, value:csvExportOptions.encoding }
                             ], 0 /* SETTINGS_RW_STRATEGY_GLOBAL */);
+
+                            var exportOptions = {format: currentTab};
+                            if (currentTab === 'csv'){
+                                $.extend(exportOptions, csvExportOptions);
+                            }
 
                             rubyCallCommand('cutlist_export', $.extend(exportOptions, that.generateOptions), function (response) {
 
@@ -1101,7 +1119,7 @@
                         if (!$selectEdgeYmaxMaterialName.prop( "disabled")) {
                             $selectEdgeYmaxMaterialName.selectpicker('val', materialName);
                         }
-                        if (!$selectEdgeYminMaterialName.prop( "disabled")) {
+                        if (!$selectEdgeYminMaterialName.prop("disabled")) {
                             $selectEdgeYminMaterialName.selectpicker('val', materialName);
                         }
                         if (!$selectEdgeXminMaterialName.prop( "disabled")) {
@@ -2621,7 +2639,8 @@
             this.blur();
         });
         this.$btnExport.on('click', function () {
-            that.exportCutlist();
+            var tab = $(this).data('tab');
+            that.exportCutlist(tab);
             this.blur();
         });
         this.$btnReport.on('click', function () {

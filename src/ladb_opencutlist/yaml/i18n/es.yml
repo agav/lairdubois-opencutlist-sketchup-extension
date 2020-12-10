@@ -333,9 +333,15 @@ tab:
       thickness_short: E
       edges: Tiras de cantos
     export:
-      title: Exportar en formato CSV
-      info: |
+      title: Exportar a archivo
+      title_csv: Exportar en formato CSV
+      title_json: Exportar en formato JSON
+      info_csv: |
         Con esta función puede exportar la *lista de piezas* a un archivo [CSV](https://es.wikipedia.org/wiki/Valores_separados_por_comas).
+
+        <i class="ladb-opencutlist-icon-warning"></i> *Las partes dentro de los grupos ocultos de su lista de partes no serán exportadas*.
+      info_json: |
+        Con esta función puede exportar la *lista de piezas* a un archivo [JSON](https://www.json.org).
 
         <i class="ladb-opencutlist-icon-warning"></i> *Las partes dentro de los grupos ocultos de su lista de partes no serán exportadas*.
       options: Opciones de exportación

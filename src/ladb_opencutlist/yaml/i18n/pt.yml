@@ -333,9 +333,15 @@ tab:
       thickness_short: E
       edges: Bandagens de borda
     export:
-      title: Exportação formatada em CSV
-      info: |
+      title: Exportar para arquivo
+      title_csv: Exportação formatada em CSV
+      title_json: Exportação formatada em JSON
+      info_csv: |
         Com esta função você pode exportar a lista *partes* para um arquivo [CSV](https://pt.wikipedia.org/wiki/Comma-separated_values) file.
+
+        <i class="ladb-opencutlist-icon-warning"></i> *As partes dentro de grupos ocultos de sua lista de partes não serão exportadas*.
+      info_json: |
+        Com esta função você pode exportar a lista *partes* para um arquivo [JSON](https://www.json.org) file.
 
         <i class="ladb-opencutlist-icon-warning"></i> *As partes dentro de grupos ocultos de sua lista de partes não serão exportadas*.
       options: Opções de exportação

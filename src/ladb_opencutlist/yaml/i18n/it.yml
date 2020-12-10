@@ -333,9 +333,15 @@ tab:
       thickness_short: T
       edges: Bordature
     export:
-      title: Esporta in formato CSV
-      info: |
+      title: Exportar a archivo
+      title_csv: Esporta in formato CSV
+      title_json: Esporta in formato JSON
+      info_csv: |
         Usa questo comando per esportare la *distinta materiali* in formato [CSV](https://it.wikipedia.org/wiki/Comma-separated_values) .
+
+        <i class="ladb-opencutlist-icon-warning"></i> *Le parti contenute in gruppi nascosti non saranno esportate*.
+      info_json: |
+        Usa questo comando per esportare la *distinta materiali* in formato [JSON](https://www.json.org) .
 
         <i class="ladb-opencutlist-icon-warning"></i> *Le parti contenute in gruppi nascosti non saranno esportate*.
       options: Opzioni di esportazione
