@@ -462,6 +462,19 @@ module Ladb::OpenCutList
         end
         part_row[:edges] = edges unless edges.empty?
       end
+
+      if group.material_type == MaterialAttributes::TYPE_SHEET_GOOD
+        part.surfaces_components.each do |surface_component|
+          component_json = {
+              name: surface_component.name,
+              side: surface_component.side,
+              x: surface_component.x,
+              y: surface_component.y
+          }
+          (part_row[:surface_components] ||= []) << component_json
+        end
+      end
+
       part_row
     end
   end

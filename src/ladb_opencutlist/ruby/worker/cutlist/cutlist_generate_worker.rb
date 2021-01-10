@@ -1093,8 +1093,8 @@ module Ladb::OpenCutList
           component_normal = glued_component.transformation.zaxis.normalize
 
           if component_normal.parallel?(x_normal)
-            x = vector.send(dimensions_to_normals[:width]).abs.to_l.to_s
-            y = vector.send(dimensions_to_normals[:thickness]).abs.to_l.to_s
+            x = vector.send(dimensions_to_normals[:thickness]).abs.to_l.to_s
+            y = vector.send(dimensions_to_normals[:width]).abs.to_l.to_s
             if component_normal == x_normal
               surfaces_components << SurfaceComponent.new(glued_component.definition.name, :right, x, y)
             else

@@ -6,7 +6,7 @@ module Ladb::OpenCutList
 
     include HashableHelper
 
-    attr_accessor :name, :x, :y
+    attr_accessor :name, :side, :x, :y
 
     def initialize(name, side, x, y)
       @name = name
